@@ -1,0 +1,10 @@
+# Esquema compilado (artefacto de compilación; se genera con glib-compile-schemas)
+schemas/gschemas.compiled
+
+# Paquetes de distribución
+*.zip
+
+# Temporales de editores
+*~
+*.swp
+.DS_Store

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.battery-watts-monitor"
+          path="/org/gnome/shell/extensions/battery-watts-monitor/">
+    <key name="refresh-interval" type="i">
+      <default>2</default>
+      <range min="1" max="30"/>
+      <summary>Intervalo de actualización (segundos)</summary>
+    </key>
+    <key name="history-length" type="i">
+      <default>60</default>
+      <range min="20" max="300"/>
+      <summary>Cantidad de muestras del gráfico</summary>
+    </key>
+    <key name="show-watts-in-panel" type="b">
+      <default>true</default>
+      <summary>Mostrar los W en el panel superior</summary>
+    </key>
+    <key name="show-percentage-in-panel" type="b">
+      <default>false</default>
+      <summary>Mostrar el porcentaje en el panel superior</summary>
+    </key>
+    <key name="hide-system-power-icon" type="b">
+      <default>true</default>
+      <summary>Ocultar el icono de energía nativo de GNOME</summary>
+    </key>
+  </schema>
+</schemalist>

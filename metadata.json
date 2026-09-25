@@ -1,0 +1,9 @@
+{
+  "uuid": "battery-watts-monitor@felipe.abarca",
+  "name": "Battery Watts Monitor",
+  "description": "Muestra el consumo del sistema en W con gráfico en tiempo real, tiempo restante o de carga, selector de modo de energía y control de la protección de carga de la batería.",
+  "shell-version": ["45", "46", "47", "48", "49", "50", "51"],
+  "settings-schema": "org.gnome.shell.extensions.battery-watts-monitor",
+  "version": 1,
+  "url": ""
+}
