@@ -307,7 +307,10 @@ class BatteryIndicator extends PanelMenu.Button {
             style_class: 'bwm-sub',
             x_align: Clutter.ActorAlign.CENTER,
         });
-        const wattsBox = new St.BoxLayout({vertical: true, x_expand: true});
+        const wattsBox = new St.BoxLayout({
+            orientation: Clutter.Orientation.VERTICAL,
+            x_expand: true,
+        });
         wattsBox.add_child(this._wattsLabel);
         wattsBox.add_child(this._subLabel);
         const wattsItem = new PopupMenu.PopupBaseMenuItem({reactive: false, can_focus: false});

@@ -4,7 +4,7 @@ Extensión de GNOME Shell que muestra el **consumo del sistema en vatios (W)** t
 referencia el flujo de energía de la batería, con un gráfico en tiempo real y controles de
 energía integrados en el panel superior.
 
-![GNOME Shell 45–48](https://img.shields.io/badge/GNOME%20Shell-45%E2%80%9348-4A86CF)
+![GNOME Shell 45–51](https://img.shields.io/badge/GNOME%20Shell-45%E2%80%9351-4A86CF)
 ![Licencia GPL-3.0](https://img.shields.io/badge/licencia-GPL--3.0-blue)
 
 ## Características
@@ -24,7 +24,7 @@ energía integrados en el panel superior.
 
 ## Requisitos
 
-- GNOME Shell 45 a 48.
+- GNOME Shell 45 a 51.
 - Una batería que exponga datos en `/sys/class/power_supply/BAT*`.
 - `power-profiles-daemon` para el selector de modos de energía (opcional).
 - `pkexec` (Polkit) para aplicar la protección de carga, ya que requiere escribir en `/sys`
