@@ -327,6 +327,10 @@ class BatteryIndicator extends PanelMenu.Button {
         this._timeItem = new PopupMenu.PopupImageMenuItem(_('Calculando…'), 'preferences-system-time-symbolic', {reactive: false});
         this.menu.addMenuItem(this._timeItem);
 
+        // Estado de salud / vida de la batería (desgaste)
+        this._healthItem = new PopupMenu.PopupImageMenuItem(_('Salud de la batería'), 'battery-level-100-charged-symbolic', {reactive: false});
+        this.menu.addMenuItem(this._healthItem);
+
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
 
         // --- Modos de energía ---
@@ -678,11 +682,63 @@ class BatteryIndicator extends PanelMenu.Button {
         }
         this._timeItem.label.text = timeText;
 
+        // --- Salud / vida de la batería ---
+        this._updateHealth();
+
         // --- Submenús ---
         this._updateProfile();
         this._updateProtection();
 
         return GLib.SOURCE_CONTINUE;
+    }
+
+    // Estado de salud (SoH) = capacidad máxima actual / capacidad de diseño.
+    _readHealth() {
+        // 1) UPower expone Capacity (= SoH en %) ya calculado
+        let soh = this._upProp('Capacity');
+        // 2) Respaldo desde sysfs (energy_* o charge_*)
+        if ((soh === null || soh <= 0) && this._batPath) {
+            const pairs = [['energy_full', 'energy_full_design'],
+                           ['charge_full', 'charge_full_design']];
+            for (const [fNow, fDesign] of pairs) {
+                const full = parseInt(readSysfs(`${this._batPath}/${fNow}`), 10);
+                const design = parseInt(readSysfs(`${this._batPath}/${fDesign}`), 10);
+                if (full > 0 && design > 0) {
+                    soh = (full / design) * 100;
+                    break;
+                }
+            }
+        }
+        let cycles = null;
+        if (this._batPath) {
+            const c = parseInt(readSysfs(`${this._batPath}/cycle_count`), 10);
+            if (!isNaN(c) && c > 0)
+                cycles = c;
+        }
+        return {soh, cycles};
+    }
+
+    _updateHealth() {
+        const {soh, cycles} = this._readHealth();
+        if (soh === null || soh <= 0) {
+            this._healthItem.label.text = _('Salud de la batería: no disponible');
+            return;
+        }
+        const pct = Math.round(soh);
+        let txt = `${_('Salud de la batería')}: ${pct}%`;
+        if (cycles !== null)
+            txt += ` · ${cycles} ${_('ciclos')}`;
+        this._healthItem.label.text = txt;
+
+        // Icono según el grado de desgaste
+        let icon;
+        if (pct >= 80)
+            icon = 'battery-level-100-charged-symbolic';
+        else if (pct >= 60)
+            icon = 'battery-level-70-symbolic';
+        else
+            icon = 'battery-level-30-symbolic';
+        this._healthItem.setIcon(icon);
     }
 
     _iconForLevel(pct) {
